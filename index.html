@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
+<title>YCT1きゅう チャレンジ</title>
+<meta name="theme-color" content="#d8432e">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="YCT1きゅう">
+<link rel="manifest" href="./manifest.json">
+<link rel="apple-touch-icon" href="./apple-touch-icon.png">
+<link rel="icon" type="image/png" href="./icon-192.png">
+<style>
+:root{--bg:#fff8ec;--ink:#3a2a22;--red:#d8432e;--red2:#b5321f;--gold:#f2b632;--green:#2e9e6b;--card:#fff;--line:#ecdcc4;--mute:#8a7566}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;height:100%}
+body{background:var(--bg);color:var(--ink);font-family:"Hiragino Maru Gothic ProN","Hiragino Sans","Yu Gothic",system-ui,sans-serif;-webkit-user-select:none;user-select:none}
+#app{max-width:560px;margin:0 auto;padding:calc(env(safe-area-inset-top) + 14px) 16px calc(env(safe-area-inset-bottom) + 28px)}
+h1{font-size:26px;margin:6px 0 2px;text-align:center;color:var(--red)}
+h2{font-size:20px;margin:4px 0 12px}
+.sub{text-align:center;color:var(--mute);font-size:13px;margin-bottom:14px}
+button{font:inherit;color:inherit;border:0;cursor:pointer}
+.btn{display:block;width:100%;background:var(--card);border:2px solid var(--line);border-radius:18px;padding:16px;margin:10px 0;font-size:19px;font-weight:700;text-align:left;box-shadow:0 3px 0 var(--line)}
+.btn:active{transform:translateY(2px);box-shadow:0 1px 0 var(--line)}
+.btn small{display:block;font-weight:400;font-size:13px;color:var(--mute);margin-top:3px}
+.btn.main{background:var(--red);color:#fff;border-color:var(--red2);box-shadow:0 3px 0 var(--red2)}
+.btn.main small{color:#ffe3dc}
+.btn.gold{background:var(--gold);border-color:#d69a16;box-shadow:0 3px 0 #d69a16}
+.btn.gold small{color:#5c4208}
+.top{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+.back{background:var(--card);border:2px solid var(--line);border-radius:14px;padding:8px 14px;font-size:16px;font-weight:700}
+.top .ttl{flex:1;font-weight:700;font-size:17px}
+.pill{background:var(--card);border:2px solid var(--line);border-radius:999px;padding:6px 12px;font-size:14px;font-weight:700}
+.stats{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin:10px 0 14px}
+.bar{height:10px;background:var(--line);border-radius:9px;overflow:hidden;margin-bottom:14px}
+.bar i{display:block;height:100%;background:var(--green)}
+.q{background:var(--card);border:2px solid var(--line);border-radius:22px;padding:18px 14px;text-align:center}
+.py{font-size:24px;font-weight:700;line-height:1.35;font-family:system-ui,sans-serif}
+.hz{font-size:22px;color:var(--mute);margin-top:4px;font-family:"PingFang SC","Hiragino Sans GB","Noto Sans SC",sans-serif}
+.jp{font-size:15px;margin-top:6px}
+.pic{font-size:84px;line-height:1.15;margin:8px 0;font-family:"Apple Color Emoji","Segoe UI Emoji","Noto Color Emoji",system-ui}
+.pic.m{font-size:54px}.pic.s{font-size:38px}
+.spk{background:var(--gold);border-radius:50%;width:92px;height:92px;font-size:44px;margin:6px auto;display:block;box-shadow:0 4px 0 #d69a16}
+.spk:active{transform:translateY(3px);box-shadow:0 1px 0 #d69a16}
+.tf{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:14px}
+.tf button,.opt{background:var(--card);border:3px solid var(--line);border-radius:20px;padding:14px 6px;font-size:20px;font-weight:700;box-shadow:0 3px 0 var(--line)}
+.tf button b{display:block;font-size:44px;line-height:1.1}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:14px}
+.grid1{display:grid;gap:10px;margin-top:14px}
+.opt .pic{font-size:46px;margin:0}.opt .pic.m{font-size:30px}.opt .pic.s{font-size:22px}
+.opt.txt{text-align:left;padding:12px 14px}
+.opt.txt .py{font-size:19px}.opt.txt .hz{font-size:17px}
+.ok{border-color:var(--green)!important;background:#e4f6ec!important}
+.ng{border-color:var(--red)!important;background:#fde7e2!important}
+.fb{margin-top:14px;border-radius:18px;padding:14px;text-align:center;background:#fff;border:2px dashed var(--line)}
+.fb .res{font-size:24px;font-weight:800}
+.fb .py{font-size:19px}.fb .hz{font-size:18px}
+.card{background:var(--card);border:2px solid var(--line);border-radius:24px;padding:20px 14px;text-align:center;min-height:330px}
+.card .hz{font-size:54px;color:var(--ink);font-weight:700}
+.card .py{font-size:28px;color:var(--red)}
+.row{display:flex;gap:10px;margin-top:12px}
+.row button{flex:1;background:var(--card);border:2px solid var(--line);border-radius:16px;padding:14px 4px;font-size:17px;font-weight:700;box-shadow:0 3px 0 var(--line)}
+.row button.on{background:#e4f6ec;border-color:var(--green)}
+.cats{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.cats .btn{margin:0;font-size:16px;padding:13px}
+table{width:100%;border-collapse:collapse;font-size:14px;background:#fff;border-radius:12px;overflow:hidden}
+td,th{border-bottom:1px solid var(--line);padding:7px 6px;text-align:left}
+th{background:#fbeed8}
+.box{background:#fff;border:2px solid var(--line);border-radius:16px;padding:14px;margin:12px 0;font-size:14px;line-height:1.7}
+.box h3{margin:0 0 6px;font-size:16px}
+input[type=date],select{font:inherit;padding:8px;border:2px solid var(--line);border-radius:10px;background:#fff}
+.big{font-size:54px;font-weight:800;color:var(--red);text-align:center}
+.warn{background:#fff3cd;border:2px solid #f0d27a;border-radius:14px;padding:10px;font-size:13px;margin:10px 0}
+.center{text-align:center}
+</style>
+</head>
+<body>
+<div id="app"></div>
+<script>
+/* ===== データ：YCT1級 公式大綱の80語 ===== */
+const W=[
+['家','jiā','いえ','🏠','ばしょ',1],['学校','xuéxiào','がっこう','🏫','ばしょ',1],['商店','shāngdiàn','おみせ','🏪','ばしょ',1],
+['中国人','Zhōngguórén','ちゅうごくじん','🇨🇳','ひと・かぞく',0],
+['爸爸','bàba','おとうさん','👨','ひと・かぞく',1],['妈妈','māma','おかあさん','👩','ひと・かぞく',1],['哥哥','gēge','おにいさん','👦','ひと・かぞく',1],['姐姐','jiějie','おねえさん','👧','ひと・かぞく',1],['老师','lǎoshī','せんせい','🧑‍🏫','ひと・かぞく',1],
+['手','shǒu','て','✋','からだ',1],['口','kǒu','くち','👄','からだ',1],['眼睛','yǎnjing','め','👀','からだ',1],['头发','tóufa','かみのけ','💇‍♀️','からだ',0],['耳朵','ěrduo','みみ','👂','からだ',1],['鼻子','bízi','はな','👃','からだ',1],['个子','gèzi','せ（しんちょう）','📏','からだ',0],
+['猫','māo','ねこ','🐱','どうぶつ',1],['狗','gǒu','いぬ','🐶','どうぶつ',1],['鸟','niǎo','とり','🐦','どうぶつ',1],['鱼','yú','さかな','🐟','どうぶつ',1],
+['水','shuǐ','みず','💧','たべもの',1],['牛奶','niúnǎi','ぎゅうにゅう','🥛','たべもの',1],['米饭','mǐfàn','ごはん','🍚','たべもの',1],['面条','miàntiáo','めん（ラーメンなど）','🍜','たべもの',1],['苹果','píngguǒ','りんご','🍎','たべもの',1],
+['今天','jīntiān','きょう','📅','とき',0],['明天','míngtiān','あした','🌅','とき',0],['现在','xiànzài','いま','⏰','とき',0],['月','yuè','〜がつ','🗓️','とき',0],['号','hào','〜にち','🗓️','とき',0],['星期','xīngqī','〜ようび・しゅう','🗓️','とき',0],['点','diǎn','〜じ','🕒','とき',0],
+['谢谢','xièxie','ありがとう','🙏','うごき',1],['再见','zàijiàn','さようなら','👋','うごき',1],['是','shì','〜です','','うごき',0],['有','yǒu','ある・もっている','','うごき',0],['看','kàn','みる','📺','うごき',0],['吃','chī','たべる','😋','うごき',0],['喝','hē','のむ','🥤','うごき',0],['去','qù','いく','🚶','うごき',0],['叫','jiào','（なまえは）〜といいます','','うごき',0],['爱','ài','だいすき','❤️','うごき',1],['喜欢','xǐhuan','すき','😍','うごき',0],['认识','rènshi','しっている','🤝','うごき',0],
+['好','hǎo','いい','👍','ようす',0],['多','duō','おおい','','ようす',0],['大','dà','おおきい','🐘','ようす',0],['小','xiǎo','ちいさい','🐭','ようす',0],['长','cháng','ながい','','ようす',0],['高','gāo','たかい','🦒','ようす',0],['高兴','gāoxìng','うれしい','😄','ようす',1],
+['我','wǒ','わたし','','だれ・なに',0],['你','nǐ','あなた','','だれ・なに',0],['他','tā','かれ（おとこのひと）','','だれ・なに',0],['她','tā','かのじょ（おんなのひと）','','だれ・なに',0],['我们','wǒmen','わたしたち','','だれ・なに',0],['这（这儿）','zhè（zhèr）','これ（ここ）','','だれ・なに',0],['那（那儿）','nà（nàr）','あれ（あそこ）','','だれ・なに',0],['哪（哪儿）','nǎ（nǎr）','どれ（どこ）','','だれ・なに',0],['谁','shéi','だれ','','だれ・なに',0],['什么','shénme','なに','','だれ・なに',0],['几','jǐ','いくつ','','だれ・なに',0],
+['一','yī','いち','1','かず',1],['二','èr','に','2','かず',1],['三','sān','さん','3','かず',1],['四','sì','よん','4','かず',1],['五','wǔ','ご','5','かず',1],['六','liù','ろく','6','かず',1],['七','qī','なな','7','かず',1],['八','bā','はち','8','かず',1],['九','jiǔ','きゅう','9','かず',1],['十','shí','じゅう','10','かず',1],
+['个','gè','〜こ','','そのほか',0],['岁','suì','〜さい','🎂','そのほか',0],['不','bù','〜ではない','','そのほか',0],['很','hěn','とても','','そのほか',0],['和','hé','〜と','','そのほか',0],['在','zài','〜にいる・〜で','','そのほか',0],['的','de','〜の','','そのほか',0],['吗','ma','〜ですか？','','そのほか',0]
+];
+const CATS=['ひと・かぞく','からだ','どうぶつ','たべもの','ばしょ','とき','かず','うごき','ようす','だれ・なに','そのほか'];
+const ap=n=>'🍎'.repeat(n), fi=n=>'🐟'.repeat(n);
+/* 聴力 第2部分：フレーズ → 絵3択 [中国語, ピンイン, 日本語, 正解の絵, ちがう絵1, ちがう絵2] */
+const PH=[
+['三个苹果','sān ge píngguǒ','りんご みっつ',ap(3),ap(1),ap(5)],
+['六个苹果','liù ge píngguǒ','りんご むっつ',ap(6),ap(4),ap(8)],
+['喝牛奶','hē niúnǎi','ぎゅうにゅうを のむ','🥛','🍎','🍜'],
+['喝水','hē shuǐ','みずを のむ','💧','🥛','🍚'],
+['吃米饭','chī mǐfàn','ごはんを たべる','🍚','🍜','🍎'],
+['吃面条','chī miàntiáo','めんを たべる','🍜','🍚','🥛'],
+['去学校','qù xuéxiào','がっこうに いく','🏫','🏠','🏪'],
+['去商店','qù shāngdiàn','おみせに いく','🏪','🏫','🏠'],
+['在家','zài jiā','いえに いる','🏠','🏫','🏪'],
+['很多鱼','hěn duō yú','さかなが たくさん',fi(6),'🐟','🐦🐦🐦🐦🐦🐦'],
+['小猫','xiǎo māo','こねこ','🐱','🐶','🐦'],
+['小狗','xiǎo gǒu','こいぬ','🐶','🐱','🐟'],
+['小鸟','xiǎo niǎo','ことり','🐦','🐟','🐱'],
+['四点','sì diǎn','4じ','⏰4:00','⏰6:00','⏰10:00'],
+['八点','bā diǎn','8じ','⏰8:00','⏰3:00','⏰5:00'],
+['爸爸和妈妈','bàba hé māma','おとうさんと おかあさん','👨👩','👦👧','👨👦'],
+['哥哥和姐姐','gēge hé jiějie','おにいさんと おねえさん','👦👧','👨👩','👩👧'],
+['水和牛奶','shuǐ hé niúnǎi','みずと ぎゅうにゅう','💧🥛','🍚🍜','🍎🥛'],
+['猫和狗','māo hé gǒu','ねこと いぬ','🐱🐶','🐦🐟','🐱🐦'],
+['我的手','wǒ de shǒu','わたしの て','✋','👂','👃'],
+['我的眼睛','wǒ de yǎnjing','わたしの め','👀','👄','👂'],
+['他的鼻子','tā de bízi','かれの はな','👃','👀','✋']
+];
+/* 文 [中国語, ピンイン, 日本語, あう絵, あわない絵, グループ] 聴力第3部分・読解第2部分で使用 */
+const S=[
+['这是我的爸爸。','Zhè shì wǒ de bàba.','これは わたしの おとうさんです。','👨','👩','dad'],
+['这是我的妈妈。','Zhè shì wǒ de māma.','これは わたしの おかあさんです。','👩','👨','mom'],
+['她是我的姐姐。','Tā shì wǒ de jiějie.','かのじょは わたしの おねえさんです。','👧','👦','sis'],
+['他是我的哥哥。','Tā shì wǒ de gēge.','かれは わたしの おにいさんです。','👦','👧','bro'],
+['她是老师。','Tā shì lǎoshī.','かのじょは せんせいです。','👩‍🏫','👧','tea'],
+['我喜欢吃苹果。','Wǒ xǐhuan chī píngguǒ.','わたしは りんごを たべるのが すきです。','🍎','🍚','apple'],
+['我爱吃面条。','Wǒ ài chī miàntiáo.','わたしは めんが だいすきです。','🍜','🍎','noodle'],
+['哥哥喜欢喝牛奶。','Gēge xǐhuan hē niúnǎi.','おにいさんは ぎゅうにゅうが すきです。','👦🥛','👦💧','bro'],
+['我有三个苹果。','Wǒ yǒu sān ge píngguǒ.','わたしは りんごを みっつ もっています。',ap(3),ap(5),'apple'],
+['我喜欢小猫。','Wǒ xǐhuan xiǎo māo.','わたしは こねこが すきです。','🐱','🐶','cat'],
+['这是狗，不是猫。','Zhè shì gǒu, bú shì māo.','これは いぬです。ねこでは ありません。','🐶','🐱','dog'],
+['现在四点。','Xiànzài sì diǎn.','いま 4じです。','⏰4:00','⏰9:00','clock'],
+['现在九点。','Xiànzài jiǔ diǎn.','いま 9じです。','⏰9:00','⏰3:00','clock'],
+['妈妈在商店。','Māma zài shāngdiàn.','おかあさんは おみせに います。','👩🏪','👩🏠','mom'],
+['爸爸在家。','Bàba zài jiā.','おとうさんは いえに います。','👨🏠','👨🏪','dad'],
+['姐姐去学校。','Jiějie qù xuéxiào.','おねえさんは がっこうに いきます。','👧🏫','👧🏪','sis'],
+['我很高兴。','Wǒ hěn gāoxìng.','わたしは とても うれしいです。','😄','😢','happy'],
+['鱼很多。','Yú hěn duō.','さかなが たくさん います。',fi(6),'🐟','fish'],
+['那是鸟。','Nà shì niǎo.','あれは とりです。','🐦','🐟','bird'],
+['妈妈吃米饭。','Māma chī mǐfàn.','おかあさんは ごはんを たべます。','👩🍚','👩🍜','mom'],
+['这是我的手。','Zhè shì wǒ de shǒu.','これは わたしの てです。','✋','👂','hand'],
+['她的眼睛很大。','Tā de yǎnjing hěn dà.','かのじょの めは とても おおきいです。','👀','👃','eye'],
+['今天三月五号。','Jīntiān sān yuè wǔ hào.','きょうは 3がつ 5にちです。','📅3/5','📅5/3','date'],
+['我七岁。','Wǒ qī suì.','わたしは 7さいです。','🎂7','🎂9','age'],
+['老师，再见！','Lǎoshī, zàijiàn!','せんせい、さようなら！','👋','🙏','bye'],
+['谢谢你！','Xièxie nǐ!','ありがとう！','🙏','👋','thx']
+];
+/* 聴力 第4部分：会話 → 絵3択 [A中, Aピンイン, B中, Bピンイン, 日本語, 正解, ちがう1, ちがう2] */
+const D=[
+['你喜欢吃什么？','Nǐ xǐhuan chī shénme?','我喜欢吃面条。','Wǒ xǐhuan chī miàntiáo.','なにを たべるのが すき？／めんが すき。','🍜','🍚','🍎'],
+['你去哪儿？','Nǐ qù nǎr?','我去学校。','Wǒ qù xuéxiào.','どこに いくの？／がっこうに いくよ。','🏫','🏪','🏠'],
+['现在几点？','Xiànzài jǐ diǎn?','现在六点。','Xiànzài liù diǎn.','いま なんじ？／6じだよ。','⏰6:00','⏰3:00','⏰9:00'],
+['她是谁？','Tā shì shéi?','她是我的妈妈。','Tā shì wǒ de māma.','かのじょは だれ？／わたしの おかあさん。','👩','👧','👨'],
+['你喝什么？','Nǐ hē shénme?','我喝牛奶。','Wǒ hē niúnǎi.','なにを のむ？／ぎゅうにゅうを のむ。','🥛','💧','🍜'],
+['你有几个苹果？','Nǐ yǒu jǐ ge píngguǒ?','我有四个。','Wǒ yǒu sì ge.','りんごは いくつ ある？／よっつ あるよ。',ap(4),ap(2),ap(6)],
+['爸爸在哪儿？','Bàba zài nǎr?','他在商店。','Tā zài shāngdiàn.','おとうさんは どこ？／おみせに いるよ。','🏪','🏠','🏫'],
+['这是什么？','Zhè shì shénme?','这是鸟。','Zhè shì niǎo.','これは なに？／とりだよ。','🐦','🐟','🐱'],
+['这是你的猫吗？','Zhè shì nǐ de māo ma?','不是，这是我的狗。','Bú shì, zhè shì wǒ de gǒu.','これは あなたの ねこ？／ちがうよ、わたしの いぬ。','🐶','🐱','🐦'],
+['他是谁？','Tā shì shéi?','他是我的哥哥。','Tā shì wǒ de gēge.','かれは だれ？／わたしの おにいさん。','👦','👨','👧'],
+['你吃什么？','Nǐ chī shénme?','我吃米饭。','Wǒ chī mǐfàn.','なにを たべる？／ごはんを たべる。','🍚','🍜','🍎'],
+['你几岁？','Nǐ jǐ suì?','我八岁。','Wǒ bā suì.','なんさい？／8さいだよ。','🎂8','🎂6','🎂10'],
+['姐姐在哪儿？','Jiějie zài nǎr?','她在学校。','Tā zài xuéxiào.','おねえさんは どこ？／がっこうに いるよ。','🏫','🏠','🏪'],
+['你喜欢猫吗？','Nǐ xǐhuan māo ma?','我不喜欢猫，我喜欢狗。','Wǒ bù xǐhuan māo, wǒ xǐhuan gǒu.','ねこは すき？／ねこは すきじゃない、いぬが すき。','🐶','🐱','🐟']
+];
+/* 読解 第3部分：しつもん → こたえ（6択） [Q中, Qピンイン, A中, Aピンイン, 日本語] */
+const QA=[
+['你叫什么？','Nǐ jiào shénme?','我叫明明。','Wǒ jiào Míngming.','なまえは？／ミンミンです。'],
+['你几岁？','Nǐ jǐ suì?','我七岁。','Wǒ qī suì.','なんさい？／7さいです。'],
+['他是谁？','Tā shì shéi?','他是我哥哥。','Tā shì wǒ gēge.','かれは だれ？／わたしの おにいさんです。'],
+['你去哪儿？','Nǐ qù nǎr?','我去商店。','Wǒ qù shāngdiàn.','どこに いくの？／おみせに いきます。'],
+['现在几点？','Xiànzài jǐ diǎn?','现在八点。','Xiànzài bā diǎn.','いま なんじ？／8じです。'],
+['今天星期几？','Jīntiān xīngqī jǐ?','今天星期三。','Jīntiān xīngqīsān.','きょうは なんようび？／すいようびです。'],
+['你喜欢吃什么？','Nǐ xǐhuan chī shénme?','我喜欢吃苹果。','Wǒ xǐhuan chī píngguǒ.','なにを たべるのが すき？／りんごが すきです。'],
+['你是中国人吗？','Nǐ shì Zhōngguórén ma?','我不是中国人。','Wǒ bú shì Zhōngguórén.','ちゅうごくじんですか？／ちゅうごくじんでは ありません。'],
+['你有哥哥吗？','Nǐ yǒu gēge ma?','有，我有一个哥哥。','Yǒu, wǒ yǒu yí ge gēge.','おにいさんは いる？／はい、ひとり います。'],
+['你认识她吗？','Nǐ rènshi tā ma?','认识，她是我的老师。','Rènshi, tā shì wǒ de lǎoshī.','かのじょを しっている？／はい、わたしの せんせいです。'],
+['妈妈在哪儿？','Māma zài nǎr?','她在家。','Tā zài jiā.','おかあさんは どこ？／いえに います。'],
+['你喝什么？','Nǐ hē shénme?','我喝水。','Wǒ hē shuǐ.','なにを のむ？／みずを のみます。'],
+['今天几月几号？','Jīntiān jǐ yuè jǐ hào?','今天六月一号。','Jīntiān liù yuè yī hào.','きょうは なんがつ なんにち？／6がつ ついたちです。'],
+['这是什么？','Zhè shì shénme?','这是鱼。','Zhè shì yú.','これは なに？／さかなです。'],
+['你高兴吗？','Nǐ gāoxìng ma?','我很高兴。','Wǒ hěn gāoxìng.','うれしい？／とても うれしいです。'],
+['那是谁的猫？','Nà shì shéi de māo?','是姐姐的猫。','Shì jiějie de māo.','あれは だれの ねこ？／おねえさんの ねこです。'],
+['老师，再见！','Lǎoshī, zàijiàn!','再见！','Zàijiàn!','せんせい、さようなら！／さようなら！']
+];
+const PARTS=[
+ {id:'L1',t:'きく①　ことば ○×',d:'ことばを きいて、えと あっているか',n:5},
+ {id:'L2',t:'きく②　えを えらぶ',d:'みじかい ことばを きいて 3つから',n:5},
+ {id:'L3',t:'きく③　ぶん ○×',d:'ぶんを きいて、えと あっているか',n:5},
+ {id:'L4',t:'きく④　かいわ',d:'かいわを きいて 3つから',n:5},
+ {id:'R1',t:'よむ①　ことば ○×',d:'えと ことばが あっているか',n:5},
+ {id:'R2',t:'よむ②　えを えらぶ',d:'ぶんを よんで 6つから',n:5},
+ {id:'R3',t:'よむ③　こたえを えらぶ',d:'しつもんに あう こたえを 6つから',n:5}
+];
+/* ===== 出題ロジック ===== */
+const rnd=n=>Math.floor(Math.random()*n);
+const shuf=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=rnd(i+1);[a[i],a[j]]=[a[j],a[i]]}return a};
+const take=(a,n)=>shuf(a).slice(0,n);
+const PW=W.filter(w=>w[5]);
+function gen(part,n){
+  const out=[];
+  if(part==='L1'||part==='R1'){
+    for(const w of take(PW,n)){
+      const truth=Math.random()<.5;
+      let o=w; if(!truth){ const pool=PW.filter(x=>x[4]===w[4]&&x!==w); o=pool.length&&Math.random()<.6?pool[rnd(pool.length)]:take(PW.filter(x=>x!==w),1)[0]; }
+      out.push({part,type:'tf',audio:part==='L1'?[w[0]]:null,text:part==='R1'?{py:w[1],hz:w[0]}:null,pic:o[3],answer:truth,
+        ex:{py:w[1],hz:w[0],jp:w[2]+'　'+w[3]},word:w[0]});
+    }
+  }else if(part==='L2'){
+    for(const p of take(PH,n)){
+      const opts=shuf([p[3],p[4],p[5]]);
+      out.push({part,type:'pick',audio:[p[0]],opts:opts.map(x=>({pic:x})),answer:opts.indexOf(p[3]),ex:{py:p[1],hz:p[0],jp:p[2]}});
+    }
+  }else if(part==='L3'){
+    for(const s of take(S,n)){
+      const truth=Math.random()<.5;
+      out.push({part,type:'tf',audio:[s[0]],pic:truth?s[3]:s[4],answer:truth,ex:{py:s[1],hz:s[0],jp:s[2]+'　'+s[3]}});
+    }
+  }else if(part==='L4'){
+    for(const d of take(D,n)){
+      const opts=shuf([d[5],d[6],d[7]]);
+      out.push({part,type:'pick',audio:[d[0],d[2]],opts:opts.map(x=>({pic:x})),answer:opts.indexOf(d[5]),
+        ex:{py:'A: '+d[1]+'<br>B: '+d[3],hz:'A: '+d[0]+'　B: '+d[2],jp:d[4]}});
+    }
+  }else if(part==='R2'){
+    for(const s of take(S,n)){
+      const others=[],seenG=new Set([s[5]]);
+      for(const x of shuf(S)){ if(others.length>=5)break; if(seenG.has(x[5]))continue; seenG.add(x[5]); others.push(x[3]); }
+      const opts=shuf([s[3],...others]);
+      out.push({part,type:'pick',text:{py:s[1],hz:s[0]},opts:opts.map(x=>({pic:x})),answer:opts.indexOf(s[3]),ex:{py:s[1],hz:s[0],jp:s[2]}});
+    }
+  }else if(part==='R3'){
+    for(const q of take(QA,n)){
+      const others=take(QA.filter(x=>x!==q&&x[2]!==q[2]),5);
+      const opts=shuf([q,...others]);
+      out.push({part,type:'pick',text:{py:q[1],hz:q[0]},opts:opts.map(x=>({py:x[3],hz:x[2]})),answer:opts.indexOf(q),
+        ex:{py:'A: '+q[1]+'<br>B: '+q[3],hz:'A: '+q[0]+'　B: '+q[2],jp:q[4]}});
+    }
+  }
+  return out;
+}
+const genMock=()=>PARTS.flatMap(p=>gen(p.id,5));
+function score(qs,res){
+  let l=0,r=0;qs.forEach((q,i)=>{if(res[i]){q.part[0]==='L'?l++:r++}});
+  return {l:l*5,r:Math.round(r*100/15),lc:l,rc:r};
+}
+if(typeof module!=='undefined')module.exports={W,PH,S,D,QA,PARTS,gen,genMock,score};
+
+/* ===== ここから画面 ===== */
+if(typeof document!=='undefined'){
+const $=document.getElementById('app');
+const KEY='yct1-challenge-v1';
+let st={exam:'',stars:0,best:{},miss:{},known:{},rate:0.8,mocks:[]};
+try{Object.assign(st,JSON.parse(localStorage.getItem(KEY)||'{}'))}catch(e){}
+const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(st))}catch(e){}};
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const glen=s=>[...String(s).replace(/[‍️]/g,'')].length;
+const picH=p=>`<div class="pic ${glen(p)>4?'s':glen(p)>1?'m':''}">${esc(p)}</div>`;
+
+/* --- 音声（端末の中国語読み上げ） --- */
+let voice=null,tok=0;
+function loadVoice(){
+  if(!('speechSynthesis' in window))return;
+  const vs=speechSynthesis.getVoices().filter(v=>/^zh/i.test(v.lang));
+  voice=vs.find(v=>/zh[-_]CN/i.test(v.lang))||vs.find(v=>/Hans/i.test(v.lang))||vs[0]||null;
+}
+if('speechSynthesis' in window){loadVoice();speechSynthesis.onvoiceschanged=loadVoice;}
+function speak(parts,times){
+  if(!('speechSynthesis' in window))return;
+  const my=++tok;speechSynthesis.cancel();
+  const seq=[];for(let t=0;t<(times||1);t++)parts.forEach((p,i)=>seq.push([p.replace(/[（）]/g,'，'),i]));
+  let k=0;
+  const next=()=>{
+    if(my!==tok||k>=seq.length)return;
+    const [txt,i]=seq[k++];const u=new SpeechSynthesisUtterance(txt);
+    u.lang='zh-CN';if(voice)u.voice=voice;u.rate=st.rate;u.pitch=i%2?1.35:1;
+    u.onend=()=>setTimeout(next,k%parts.length===0?900:350);u.onerror=()=>setTimeout(next,200);
+    speechSynthesis.speak(u);
+  };
+  next();
+}
+const stop=()=>{tok++;if('speechSynthesis' in window)speechSynthesis.cancel()};
+
+/* --- ホーム --- */
+function daysLeft(){
+  if(!st.exam)return null;
+  const a=new Date();a.setHours(0,0,0,0);const b=new Date(st.exam+'T00:00:00');
+  return Math.round((b-a)/864e5);
+}
+function home(){
+  stop();
+  const d=daysLeft(),known=Object.keys(st.known).length;
+  const last=st.mocks[st.mocks.length-1];
+  $.innerHTML=`<h1>🐼 YCT1きゅう チャレンジ</h1>
+  <div class="sub">ちゅうごくごの テストに ごうかく しよう！</div>
+  <div class="stats">
+    <span class="pill">⭐ ${st.stars}</span>
+    <span class="pill">📖 ${known}/80 ことば</span>
+    ${d===null?'':`<span class="pill">📅 ${d>0?'テストまで あと '+d+'にち':d===0?'きょうが テスト！':'テスト おつかれさま'}</span>`}
+    ${last?`<span class="pill">📝 まえの もぎ ${last.l+last.r}てん</span>`:''}
+  </div>
+  <button class="btn main" data-go="cards">📖 ことばカード<small>80この ことばを きいて おぼえる</small></button>
+  <button class="btn main" data-go="practice">🎯 れんしゅう<small>テストと おなじ かたちの もんだい（5もんずつ）</small></button>
+  <button class="btn gold" data-go="mock">📝 もぎテスト<small>ほんばんと おなじ 35もん・200てんまんてん</small></button>
+  <button class="btn" data-go="parent">👨‍👩‍👧 おとなのページ<small>試験の概要・80語の意味一覧・設定</small></button>
+  ${voice||!('speechSynthesis' in window)?'':'<div class="warn">中国語の読み上げ音声を準備中です。音が出ない場合は「おとなのページ」の音声テストをご確認ください。</div>'}`;
+  $.querySelectorAll('[data-go]').forEach(b=>b.onclick=()=>({cards:cardMenu,practice:practiceMenu,mock:mockIntro,parent:parent})[b.dataset.go]());
+}
+const top=(t,back)=>`<div class="top"><button class="back" id="bk">← もどる</button><div class="ttl">${t}</div></div>`;
+const onBack=f=>{document.getElementById('bk').onclick=()=>{stop();f()}};
+
+/* --- ことばカード --- */
+function cardMenu(){
+  const weak=W.filter(w=>(st.miss[w[0]]||0)>0);
+  $.innerHTML=top('📖 ことばカード')+`<div class="cats">${CATS.map((c,i)=>{
+    const ws=W.filter(w=>w[4]===c),k=ws.filter(w=>st.known[w[0]]).length;
+    return `<button class="btn" data-c="${i}">${c}<small>${k}/${ws.length} おぼえた</small></button>`}).join('')}</div>
+    ${weak.length?`<button class="btn gold" id="wk">💪 にがてな ことば（${weak.length}こ）<small>まちがえた ことばを もういちど</small></button>`:''}
+    <button class="btn" id="all">🔀 ぜんぶ まぜて</button>`;
+  onBack(home);
+  $.querySelectorAll('[data-c]').forEach(b=>b.onclick=()=>cards(W.filter(w=>w[4]===CATS[b.dataset.c]),CATS[b.dataset.c]));
+  if(weak.length)document.getElementById('wk').onclick=()=>cards(weak,'にがてな ことば');
+  document.getElementById('all').onclick=()=>cards(shuf(W),'ぜんぶ');
+}
+function cards(list,title){
+  let i=0,show=false;
+  const draw=()=>{
+    const w=list[i];
+    $.innerHTML=top(`${title}　${i+1}/${list.length}`)+`<div class="card">
+      ${w[3]?picH(w[3]):'<div class="pic m">💬</div>'}
+      <div class="py">${esc(w[1])}</div><div class="hz">${esc(w[0])}</div>
+      <button class="spk" id="sp">🔊</button>
+      <div class="jp" style="font-size:22px;font-weight:700;min-height:32px">${show?esc(w[2]):'<span style="color:#b9a999">？？？</span>'}</div>
+    </div>
+    <div class="row"><button id="mean">${show?'かくす':'いみを みる'}</button><button id="kn" class="${st.known[w[0]]?'on':''}">${st.known[w[0]]?'✅ おぼえた':'おぼえた！'}</button></div>
+    <div class="row"><button id="pv">← まえ</button><button id="nx">つぎ →</button></div>`;
+    onBack(cardMenu);
+    document.getElementById('sp').onclick=()=>speak([w[0]],1);
+    document.getElementById('mean').onclick=()=>{show=!show;draw()};
+    document.getElementById('kn').onclick=()=>{if(st.known[w[0]])delete st.known[w[0]];else{st.known[w[0]]=1;delete st.miss[w[0]]}save();draw()};
+    document.getElementById('pv').onclick=()=>{i=(i-1+list.length)%list.length;show=false;draw();speak([list[i][0]],1)};
+    document.getElementById('nx').onclick=()=>{i=(i+1)%list.length;show=false;draw();speak([list[i][0]],1)};
+  };
+  draw();speak([list[0][0]],1);
+}
+
+/* --- れんしゅう --- */
+function practiceMenu(){
+  $.innerHTML=top('🎯 れんしゅう')+PARTS.map(p=>`<button class="btn" data-p="${p.id}">${p.t}　${'⭐'.repeat(Math.max(0,(st.best[p.id]||0)-2))}<small>${p.d}${st.best[p.id]!=null?'　／ さいこう '+st.best[p.id]+'/5':''}</small></button>`).join('');
+  onBack(home);
+  $.querySelectorAll('[data-p]').forEach(b=>b.onclick=()=>runQuiz(gen(b.dataset.p,5),false,b.dataset.p));
+}
+function runQuiz(qs,mock,pid){
+  let i=0;const res=[];
+  const show=()=>{
+    const q=qs[i],pt=PARTS.find(p=>p.id===q.part);
+    let h=top(`${mock?'📝 もぎテスト':pt.t}　${i+1}/${qs.length}`)+`<div class="bar"><i style="width:${i/qs.length*100}%"></i></div><div class="q">`;
+    if(mock)h+=`<div class="jp" style="color:var(--mute);margin:0 0 6px">${pt.t}</div>`;
+    if(q.audio)h+=`<button class="spk" id="sp">🔊</button><div class="jp" style="color:var(--mute)">2かい ながれるよ。よく きいてね</div>`;
+    if(q.text)h+=`<div class="py">${esc(q.text.py)}</div><div class="hz">${esc(q.text.hz)}</div>`;
+    if(q.type==='tf')h+=picH(q.pic);
+    h+='</div>';
+    if(q.type==='tf')h+=`<div class="tf"><button data-a="1"><b>⭕</b>あってる</button><button data-a="0"><b>❌</b>ちがう</button></div>`;
+    else if(q.opts[0].pic!==undefined)h+=`<div class="grid3">${q.opts.map((o,k)=>`<button class="opt" data-a="${k}">${picH(o.pic)}</button>`).join('')}</div>`;
+    else h+=`<div class="grid1">${q.opts.map((o,k)=>`<button class="opt txt" data-a="${k}"><div class="py">${esc(o.py)}</div><div class="hz">${esc(o.hz)}</div></button>`).join('')}</div>`;
+    h+='<div id="fb"></div>';
+    $.innerHTML=h;
+    onBack(()=>{if(confirm('とちゅうで やめますか？'))mock?home():practiceMenu()});
+    if(q.audio){document.getElementById('sp').onclick=()=>speak(q.audio,2);speak(q.audio,2);}
+    const btns=[...$.querySelectorAll('[data-a]')];
+    btns.forEach(b=>b.onclick=()=>{
+      const a=q.type==='tf'?b.dataset.a==='1':+b.dataset.a;
+      const ok=a===q.answer;res[i]=ok;
+      if(!ok&&q.word){st.miss[q.word]=(st.miss[q.word]||0)+1;save()}
+      if(mock){stop();next();return}
+      btns.forEach(x=>{x.disabled=true;const xa=q.type==='tf'?x.dataset.a==='1':+x.dataset.a;if(xa===q.answer)x.classList.add('ok');else if(x===b)x.classList.add('ng')});
+      document.getElementById('fb').innerHTML=`<div class="fb"><div class="res" style="color:${ok?'var(--green)':'var(--red)'}">${ok?'🎉 せいかい！':'😢 ざんねん…'}</div>
+        <div class="py">${q.ex.py}</div><div class="hz">${esc(q.ex.hz)}</div><div class="jp">${esc(q.ex.jp)}</div>
+        <div class="row"><button id="again">🔊 もういちど</button><button id="nx" style="background:var(--red);color:#fff;border-color:var(--red2)">つぎへ →</button></div></div>`;
+      document.getElementById('again').onclick=()=>speak(q.audio||[q.ex.hz.replace(/[AB]: /g,'')],1);
+      document.getElementById('nx').onclick=()=>{stop();next()};
+      document.getElementById('fb').scrollIntoView({behavior:'smooth',block:'end'});
+    });
+  };
+  const next=()=>{i++;if(i<qs.length)show();else mock?mockResult(qs,res):pracResult(qs,res,pid)};
+  show();
+}
+function pracResult(qs,res,pid){
+  const c=res.filter(Boolean).length;
+  st.stars+=c;if((st.best[pid]||0)<c)st.best[pid]=c;save();
+  $.innerHTML=`<h1>${c===5?'🏆 ぜんぶ せいかい！':c>=3?'👏 よく できました！':'💪 もういちど やってみよう'}</h1>
+  <div class="big">${c} / 5</div><div class="center" style="font-size:20px;margin:8px 0 16px">⭐ +${c}</div>
+  <button class="btn main" id="re">もういちど</button><button class="btn" id="mn">ほかの れんしゅう</button><button class="btn" id="hm">ホームへ</button>`;
+  document.getElementById('re').onclick=()=>runQuiz(gen(pid,5),false,pid);
+  document.getElementById('mn').onclick=practiceMenu;document.getElementById('hm').onclick=home;
+}
+
+/* --- もぎテスト --- */
+function mockIntro(){
+  $.innerHTML=top('📝 もぎテスト')+`<div class="box"><h3>ほんばんと おなじ かたちだよ</h3>
+  ・きく もんだい 20もん ＋ よむ もんだい 15もん<br>・こたえあわせは さいごに まとめて<br>・200てんまんてん、<b>120てんで ごうかく</b></div>
+  <button class="btn gold" id="go">スタート！</button>`;
+  onBack(home);document.getElementById('go').onclick=()=>runQuiz(genMock(),true);
+}
+function mockResult(qs,res){
+  const s=score(qs,res),tot=s.l+s.r,pass=tot>=120;
+  st.mocks.push({d:new Date().toISOString().slice(0,10),l:s.l,r:s.r});if(st.mocks.length>30)st.mocks.shift();
+  st.stars+=s.lc+s.rc;save();
+  const wrong=qs.map((q,i)=>res[i]?'':`<tr><td>${i+1}</td><td><span class="py" style="font-size:14px">${q.ex.py}</span><br>${esc(q.ex.hz)}<br>${esc(q.ex.jp)}</td></tr>`).join('');
+  $.innerHTML=`<h1>${pass?'🎊 ごうかくライン クリア！':'💪 あと すこし！'}</h1>
+  <div class="big">${tot}<span style="font-size:22px"> / 200てん</span></div>
+  <div class="stats"><span class="pill">👂 きく ${s.l}/100（${s.lc}/20もん）</span><span class="pill">👀 よむ ${s.r}/100（${s.rc}/15もん）</span></div>
+  <div class="box">ごうかくは 120てん いじょう。${pass?'この ちょうしで いこう！':'「れんしゅう」と「にがてな ことば」で もういちど やってみよう。'}</div>
+  ${wrong?`<div class="box"><h3>まちがえた もんだい（おとなと いっしょに かくにん）</h3><table>${wrong}</table></div>`:''}
+  <button class="btn main" id="hm">ホームへ</button>`;
+  document.getElementById('hm').onclick=home;window.scrollTo(0,0);
+}
+
+/* --- おとなのページ --- */
+function parent(){
+  const weak=W.filter(w=>st.miss[w[0]]).sort((a,b)=>st.miss[b[0]]-st.miss[a[0]]);
+  $.innerHTML=top('👨‍👩‍👧 おとなのページ')+`
+  <div class="box"><h3>YCT1級の概要</h3>
+  ・全35問：聴力20問（約10分）＋読解15問（17分）。個人情報記入を含め全体で約35分<br>
+  ・聴力・読解 各100点の200点満点、<b>120点以上で合格</b><br>
+  ・出題範囲は80語。問題文にはすべてピンインが併記されます<br>
+  ・聴力は各問2回ずつ流れます<br>
+  ・本アプリの「れんしゅう」7種類は本番の7パートに対応しています</div>
+  <div class="box"><h3>設定</h3>
+  試験日：<input type="date" id="ex" value="${esc(st.exam)}"><br><br>
+  読み上げの速さ：<select id="rt">${[[0.6,'ゆっくり'],[0.8,'ややゆっくり（標準）'],[1,'ふつう（本番に近い）']].map(([v,l])=>`<option value="${v}" ${+st.rate===v?'selected':''}>${l}</option>`).join('')}</select><br><br>
+  <button class="pill" id="vt">🔊 音声テスト（你好）</button>
+  <div style="font-size:12px;color:var(--mute);margin-top:6px">音声は端末内蔵の中国語読み上げを使用（現在：${voice?esc(voice.name):'未検出'}）。音が出ない場合は、消音スイッチ・音量と、iPhoneの「設定＞アクセシビリティ＞読み上げコンテンツ＞声」で中国語の声が入っているかをご確認ください。</div></div>
+  <div class="box"><h3>もぎテストの記録</h3>${st.mocks.length?st.mocks.slice().reverse().map(m=>`${m.d}：${m.l+m.r}点（聴${m.l}／読${m.r}）${m.l+m.r>=120?' ✅':''}`).join('<br>'):'まだありません'}</div>
+  ${weak.length?`<div class="box"><h3>まちがいの多い単語</h3>${weak.slice(0,15).map(w=>`${esc(w[0])}（${esc(w[1])}／${esc(w[2])}）×${st.miss[w[0]]}`).join('<br>')}</div>`:''}
+  <div class="box"><h3>80語一覧</h3><table><tr><th>漢字</th><th>ピンイン</th><th>意味</th></tr>${W.map(w=>`<tr><td>${esc(w[0])}</td><td>${esc(w[1])}</td><td>${esc(w[2])}</td></tr>`).join('')}</table></div>
+  <div class="box"><h3>注意</h3>問題は公式大綱の語彙・文法に沿って作成したオリジナルで、公式の過去問ではありません。得点換算は1問あたり均等配点とした目安です。本番前に公式サンプル問題も一度解いておくことをおすすめします。</div>
+  <button class="btn" id="rs" style="color:var(--red)">記録をすべてリセット</button>`;
+  onBack(home);
+  document.getElementById('ex').onchange=e=>{st.exam=e.target.value;save()};
+  document.getElementById('rt').onchange=e=>{st.rate=+e.target.value;save()};
+  document.getElementById('vt').onclick=()=>speak(['你好'],1);
+  document.getElementById('rs').onclick=()=>{if(confirm('記録をすべて消しますか？')){const ex=st.exam,rt=st.rate;st={exam:ex,stars:0,best:{},miss:{},known:{},rate:rt,mocks:[]};save();home()}};
+}
+home();
+if('serviceWorker' in navigator)window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(()=>{}));
+}
+</script>
+</body>
+</html>
